@@ -1,3 +1,4 @@
+import 'package:app/pages/AddExercise.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,39 +12,101 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final devicesize = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("hello sankit"),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            SizedBox(height: 10),
+            Text(
+              "Hello Sankit!",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 17,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+            Text(
+              "Thursday, 07 July",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.account_circle, size: 26),
+            icon: const Icon(
+              Icons.circle_notifications_outlined,
+              size: 36,
+              color: Colors.black,
+            ),
             onPressed: () {},
           )
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.camera), label: 'Camera'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: 'Settings'),
-        ],
-      ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        shrinkWrap: true,
-        children: List.generate(
-          4,
-          (index) {
-            return Container(
-              width: devicesize.width / 2.2,
-              height: devicesize.width / 2.2,
-              margin: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.grey,
+        selectedItemColor: const Color.fromRGBO(27, 88, 91, 1),
+        unselectedItemColor: const Color.fromRGBO(71, 71, 71, 1),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        onTap: (index) {
+          if (index == 2) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) =>const AddExercise(),
               ),
             );
-          },
+          }
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.sports_gymnastics_rounded),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.add_circle,
+              color: Color.fromRGBO(255, 94, 88, 1),
+              size: 40,
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.paste,
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.account_circle_outlined,
+            ),
+            label: '',
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(width: double.infinity, height: 30),
+            Container(
+              width: devicesize.width * 0.9,
+              height: devicesize.height / 4,
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(255, 224, 180, 1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ],
         ),
       ),
     );
