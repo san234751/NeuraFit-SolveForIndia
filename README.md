@@ -62,3 +62,4 @@ By tracking exercise history, setting personalized fitness goals, and securely h
 PoseFit empowers users to take control of their fitness journey by providing accurate and timely feedback, helping them perform exercises correctly, and minimizing the risk of injuries. With PoseFit, users can optimize their workouts, achieve their fitness goals, and make strides towards a healthier lifestyle.
 
 Whether you are a beginner looking to improve your exercise form or an experienced fitness enthusiast striving for better performance, PoseFit is the ultimate exercise companion that harnesses the power of machine learning and pose detection to help you elevate your workout experience and achieve your fitness goals with confidence.
+<hr>
