@@ -1,4 +1,9 @@
+import 'package:app/pages/add_exercise.dart';
+import 'package:app/pages/graph_page.dart';
+import 'package:app/pages/main_screen.dart';
+import 'package:app/pages/profile_page.dart';
 import 'package:app/pages/session_page.dart';
+import 'package:app/pages/workouts.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -8,6 +13,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+  final List<Widget> _widgetOptions = <Widget>[
+    const MainScreen(),
+    WorkOutPage(),
+    SessionPage(),
+    GraphPage(),
+    ProfilePage()
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final devicesize = MediaQuery.of(context).size;
@@ -51,17 +71,9 @@ class _HomePageState extends State<HomePage> {
         selectedItemColor: const Color.fromRGBO(27, 88, 91, 1),
         unselectedItemColor: const Color.fromRGBO(71, 71, 71, 1),
         backgroundColor: Colors.white,
-        currentIndex: 2,
+        currentIndex: _selectedIndex,
         elevation: 0,
-        onTap: (index) {
-          if (index == 2) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const SessionPage(),
-              ),
-            );
-          }
-        },
+        onTap: _onItemTapped,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -93,22 +105,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(width: double.infinity, height: 30),
-            Container(
-              width: devicesize.width * 0.9,
-              height: devicesize.height / 4,
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(255, 224, 180, 1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          ],
-        ),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
     );
   }
