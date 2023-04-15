@@ -1,4 +1,5 @@
-import 'package:app/pages/AddExercise.dart';
+import 'package:app/pages/addexercise.dart';
+import 'package:app/pages/session.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -56,7 +57,7 @@ class _HomePageState extends State<HomePage> {
           if (index == 2) {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) =>const AddExercise(),
+                builder: (context) => const SessionPage(),
               ),
             );
           }
@@ -67,7 +68,7 @@ class _HomePageState extends State<HomePage> {
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.sports_gymnastics_rounded),
+            icon: Icon(Icons.sports_handball),
             label: '',
           ),
           BottomNavigationBarItem(

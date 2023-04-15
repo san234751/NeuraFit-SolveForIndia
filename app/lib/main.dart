@@ -1,20 +1,27 @@
+import 'package:app/pages/camerapage.dart';
 import 'package:app/pages/homepage.dart';
 import 'package:flutter/material.dart';
-void main() {
-  runApp(const MyApp());
+import 'package:camera/camera.dart';
+
+late List<CameraDescription> _cameras;
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  _cameras = await availableCameras();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Vital',
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: const HomePage(),
+      routes: {
+        '/camerapage': (context) => CameraPage(
+              cameras: _cameras,
+            )
+      },
     );
   }
 }
-
-

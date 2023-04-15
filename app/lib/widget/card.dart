@@ -46,7 +46,9 @@ class PendingCard extends StatelessWidget {
                 ),
                 child: TextButton.icon(
                   icon: const Icon(Icons.play_arrow, color: Colors.black),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/camerapage');
+                  },
                   label: const Text(
                     "Start",
                     style: TextStyle(
