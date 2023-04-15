@@ -19,7 +19,7 @@ class _CameraPageState extends State<CameraPage> {
   bool ispause = false;
   bool hasStarted = false;
   int sec = 0;
-  int min = 0;
+  int min = 0, reps = 0;
   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 10;
   Timer? timer;
 
@@ -40,6 +40,12 @@ class _CameraPageState extends State<CameraPage> {
         });
       });
     }
+  }
+
+  setreps(value) {
+    setState(() {
+      reps = value;
+    });
   }
 
   @override
@@ -68,7 +74,10 @@ class _CameraPageState extends State<CameraPage> {
               ),
               clipBehavior: Clip.hardEdge,
               child: hasStarted
-                  ? PushedPage(cameras: widget.cameras)
+                  ? PushedPage(
+                      cameras: widget.cameras,
+                      title: widget.title!,
+                      callback: setreps)
                   : Center(
                       child: CountdownTimer(
                         endTime: endTime,
@@ -111,7 +120,7 @@ class _CameraPageState extends State<CameraPage> {
                           min.toString(),
                           style: const TextStyle(fontSize: 40),
                         )
-                      : const Text('sets'),
+                      : Text('${reps / 15}'),
                   widget.title != 'Plank' ? const Text('sets') : Text('min'),
                   const SizedBox(
                     height: 4,
@@ -119,31 +128,33 @@ class _CameraPageState extends State<CameraPage> {
                 ]),
               ),
               Container(
-                  width: devicesize.width * 0.2,
-                  height: devicesize.width * 0.2,
-                  decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 224, 180, 1),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        widget.title == 'Plank'
-                            ? Text(
-                                sec.toString(),
-                                style: const TextStyle(fontSize: 40),
-                              )
-                            : const Text('reps'),
-                        widget.title != 'Plank'
-                            ? const Text('reps')
-                            : Text('secs'),
-                        SizedBox(
-                          height: 4,
-                        )
-                      ])),
+                width: devicesize.width * 0.2,
+                height: devicesize.width * 0.2,
+                decoration: BoxDecoration(
+                    color: Color.fromRGBO(255, 224, 180, 1),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    widget.title == 'Plank'
+                        ? Text(
+                            sec.toString(),
+                            style: const TextStyle(fontSize: 40),
+                          )
+                        : Text('${reps}'),
+                    widget.title != 'Plank' ? const Text('reps') : Text('secs'),
+                    SizedBox(height: 4)
+                  ],
+                ),
+              ),
               InkWell(
                 onTap: () {
                   timer?.cancel();
-                  Navigator.of(context).pop(widget.title);
+                  if (widget.title != 'Plank') {
+                    Navigator.of(context).pop([widget.title, min * 60 + sec]);
+                  } else {
+                    Navigator.of(context).pop([widget.title, reps]);
+                  }
                 },
                 child: Container(
                   width: devicesize.width * 0.2,

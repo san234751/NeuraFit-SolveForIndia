@@ -6,13 +6,15 @@ class RenderDataArmPress extends StatefulWidget {
   final int previewW;
   final double screenH;
   final double screenW;
+  Function callback;
 
   RenderDataArmPress(
       {required this.data,
       required this.previewH,
       required this.previewW,
       required this.screenH,
-      required this.screenW});
+      required this.screenW,
+      required this.callback});
   @override
   _RenderDataArmPressState createState() => _RenderDataArmPressState();
 }
@@ -155,6 +157,7 @@ class _RenderDataArmPressState extends State<RenderDataArmPress> {
     setState(() {
       _counter = _counter! + 1;
     });
+    widget.callback(_counter);
   }
 
   @override
