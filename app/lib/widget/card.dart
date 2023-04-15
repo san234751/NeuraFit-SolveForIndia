@@ -54,7 +54,7 @@ class PendingCard extends StatelessWidget {
                     //pass data in arguments
                     Navigator.of(context)
                         .pushNamed('/camerapage', arguments: title)
-                        .then((value) => callback(title));
+                        .then((value) => callback(value));
                     // Navigator.of(context).pushNamed('/camerapage');
                   },
                   label: const Text(
