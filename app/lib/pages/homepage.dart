@@ -1,4 +1,4 @@
-import 'package:app/pages/add_exercise.dart';
+import 'package:app/pages/notification.dart';
 import 'package:app/pages/graph_page.dart';
 import 'package:app/pages/main_screen.dart';
 import 'package:app/pages/profile_page.dart';
@@ -63,7 +63,15 @@ class _HomePageState extends State<HomePage> {
               size: 36,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () {
+              // Navigate to notifications page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NotificationPage(),
+                ),
+              );
+            },
           )
         ],
       ),

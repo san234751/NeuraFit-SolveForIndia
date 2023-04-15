@@ -1,4 +1,3 @@
-import 'package:app/pages/plan_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -16,13 +15,14 @@ class ProfilePage extends StatelessWidget {
             backgroundImage: AssetImage('images/img1.png'),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
-            'John Doe',
+            "Notifications",
             style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              fontSize: 17,
+              fontWeight: FontWeight.w300,
             ),
           ),
         ),
@@ -40,11 +40,7 @@ class ProfilePage extends StatelessWidget {
           leading: Icon(Icons.fitness_center),
           title: Text('Workout Plan'),
           trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return SetAlarmScreen();
-            }));
-          },
+          onTap: () {},
         ),
         ListTile(
           leading: Icon(Icons.food_bank),
@@ -63,20 +59,12 @@ class ProfilePage extends StatelessWidget {
           },
         ),
         Spacer(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: Colors.red,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            onPressed: () {
-              // Navigate to login page
-            },
-            child: Text('Logout'),
-          ),
+        ListTile(
+          leading: Icon(Icons.logout),
+          title: Text('Logout'),
+          onTap: () {
+            // Logout
+          },
         ),
       ],
     );
