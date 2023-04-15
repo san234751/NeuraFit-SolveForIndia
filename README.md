@@ -27,16 +27,15 @@ To start using PoseFit, follow the steps below:
 Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/posefit.git
+git clone https://github.com/san234751/solveforindia.git
 ```
-Replace yourusername with your actual GitHub username.
 
 Step 2: Install Dependencies
 
 Navigate to the cloned repository in your local development environment and run the following command to install the required dependencies: 
 
 ```bash
-cd posefit
+cd solveforindia
 flutter pub get
 ```
 
