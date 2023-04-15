@@ -1,14 +1,18 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class PendingCard extends StatelessWidget {
   String title;
   IconData logo;
   Size devicesize;
+  Function callback;
   PendingCard(
       {Key? key,
       required this.title,
       required this.logo,
-      required this.devicesize})
+      required this.devicesize,
+      required this.callback})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -47,7 +51,11 @@ class PendingCard extends StatelessWidget {
                 child: TextButton.icon(
                   icon: const Icon(Icons.play_arrow, color: Colors.black),
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/camerapage');
+                    //pass data in arguments
+                    Navigator.of(context)
+                        .pushNamed('/camerapage', arguments: title)
+                        .then((value) => callback(title));
+                    // Navigator.of(context).pushNamed('/camerapage');
                   },
                   label: const Text(
                     "Start",

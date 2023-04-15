@@ -1,5 +1,4 @@
-import 'package:app/pages/addexercise.dart';
-import 'package:app/pages/homepage.dart';
+import 'package:app/pages/add_exercise.dart';
 import 'package:app/widget/card.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +9,15 @@ class SessionPage extends StatefulWidget {
 }
 
 class _SessionPageState extends State<SessionPage> {
-  List<String> pending = ["Running", "Bench press"];
-  List<String> completed = ["Pushups"];
+  List<String> pending = [];
+  List<String> completed = [];
+  addComplete(String value) {
+    setState(() {
+      pending.remove(value);
+      completed.add(value);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final devicesize = MediaQuery.of(context).size;
@@ -24,13 +30,38 @@ class _SessionPageState extends State<SessionPage> {
             children: [
               const SizedBox(width: double.infinity, height: 30),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(width: devicesize.width * 0.05),
-                  const Text(
-                    "New",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 36,
+                  Padding(
+                    padding: EdgeInsets.only(left: devicesize.width * 0.05),
+                    child: const Text(
+                      "New",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 36,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: devicesize.width * 0.05),
+                    child: Container(
+                      width: devicesize.width * 0.2,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: const Color.fromRGBO(255, 94, 88, 1),
+                        // color: const Color.fromRGBO(255, 224, 180, 1),
+                        borderRadius: BorderRadius.circular(100),
+                        border: Border.all(),
+                      ),
+                      child: TextButton(
+                        child: const Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -66,7 +97,7 @@ class _SessionPageState extends State<SessionPage> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 1,
+                  itemCount: completed.length,
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
@@ -102,7 +133,7 @@ class _SessionPageState extends State<SessionPage> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 2,
+                  itemCount: pending.length,
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
@@ -110,6 +141,7 @@ class _SessionPageState extends State<SessionPage> {
                           title: pending[index],
                           logo: Icons.sports_handball,
                           devicesize: devicesize,
+                          callback: addComplete,
                         ),
                         const SizedBox(height: 10),
                       ],
@@ -121,43 +153,50 @@ class _SessionPageState extends State<SessionPage> {
                 height: 50,
                 width: devicesize.width * 0.9,
                 decoration: BoxDecoration(
-                  color: const Color.fromRGBO(255, 224, 180, 1),
+                  color: Colors.grey,
                   borderRadius: BorderRadius.circular(100),
                   border: Border.all(),
                 ),
                 child: TextButton(
                   child: const Text(
                     "Add Exercise",
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const AddExercise(),
-                      ),
-                    );
+                    //get data on pop
+                    Navigator.of(context)
+                        .push(
+                          MaterialPageRoute(
+                            builder: (context) => const AddExercise(),
+                          ),
+                        )
+                        .then((value) => setState(() {
+                              pending = pending + value;
+                            }));
                   },
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Container(
                 height: 50,
                 width: devicesize.width * 0.9,
                 decoration: BoxDecoration(
-                  color: const Color.fromRGBO(255, 94, 88, 1),
+                  // color: const Color.fromRGBO(255, 94, 88, 1),
+                  color: const Color.fromRGBO(255, 224, 180, 1),
                   borderRadius: BorderRadius.circular(100),
                   border: Border.all(),
                 ),
                 child: TextButton(
                   child: const Text(
-                    "Cancel Session",
-                    style: TextStyle(color: Colors.white),
+                    "Done Session",
+                    style: TextStyle(color: Colors.black),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
               ),
+              SizedBox(height: 20),
             ],
           ),
         ),

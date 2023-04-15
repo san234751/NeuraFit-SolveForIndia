@@ -1,4 +1,3 @@
-import 'package:app/pages/session.dart';
 import 'package:flutter/material.dart';
 
 class AddExercise extends StatefulWidget {
@@ -8,7 +7,8 @@ class AddExercise extends StatefulWidget {
 }
 
 class _AddExerciseState extends State<AddExercise> {
-  List<String> names = ["Running", "Bench press", "Pushups"];
+  List<String> names = ["Plank", "Running", "Bench press", "Pushups"];
+  List<String> selected = [];
   @override
   Widget build(BuildContext context) {
     final devicesize = MediaQuery.of(context).size;
@@ -68,15 +68,34 @@ class _AddExerciseState extends State<AddExercise> {
                 width: devicesize.width * 0.9,
                 height: devicesize.height * 0.6,
                 child: ListView.builder(
-                  itemCount: 3,
+                  itemCount: names.length,
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
-                        ListTile(
-                          title: Text(names[index]),
-                          trailing: const Icon(Icons.sports_handball),
-                          shape: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16)),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (selected.contains(names[index])) {
+                                selected.remove(names[index]);
+                              } else {
+                                selected.add(names[index]);
+                              }
+                            });
+                          },
+                          child: ListTile(
+                            title: Text(names[index]),
+                            trailing: const Icon(Icons.sports_handball),
+                            shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: BorderSide(
+                                  color: selected.contains(names[index])
+                                      ? Colors.green
+                                      : Colors.black,
+                                  width: selected.contains(names[index])
+                                      ? 2.0
+                                      : 1.0),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 10),
                       ],
@@ -98,7 +117,9 @@ class _AddExerciseState extends State<AddExercise> {
                     style: TextStyle(color: Colors.black),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(
+                      selected,
+                    );
                   },
                 ),
               ),

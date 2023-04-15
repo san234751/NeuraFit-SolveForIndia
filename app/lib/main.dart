@@ -1,4 +1,4 @@
-import 'package:app/pages/camerapage.dart';
+import 'package:app/pages/camera_page.dart';
 import 'package:app/pages/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/camerapage': (context) => CameraPage(
               cameras: _cameras,
+              title: ModalRoute.of(context)!.settings.arguments as String,
             )
       },
     );

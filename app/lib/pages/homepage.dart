@@ -1,5 +1,4 @@
-import 'package:app/pages/addexercise.dart';
-import 'package:app/pages/session.dart';
+import 'package:app/pages/session_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -52,6 +51,7 @@ class _HomePageState extends State<HomePage> {
         selectedItemColor: const Color.fromRGBO(27, 88, 91, 1),
         unselectedItemColor: const Color.fromRGBO(71, 71, 71, 1),
         backgroundColor: Colors.white,
+        currentIndex: 2,
         elevation: 0,
         onTap: (index) {
           if (index == 2) {

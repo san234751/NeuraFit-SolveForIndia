@@ -1,3 +1,4 @@
+import 'package:app/services/render_data_plank.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:tflite/tflite.dart';
@@ -51,7 +52,7 @@ class _PushedPageState extends State<PushedPage> {
           cameras: widget.cameras,
           setRecognitions: _setRecognitions,
         ),
-        RenderDataArmPress(
+        RenderDataPlank(
           data: _data ?? [],
           previewH: max(_imageHeight, _imageWidth),
           previewW: min(_imageHeight, _imageWidth),
