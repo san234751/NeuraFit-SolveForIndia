@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:math' as Math;
 import 'package:app/pages/pushed_page.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +120,10 @@ class _CameraPageState extends State<CameraPage> {
                           min.toString(),
                           style: const TextStyle(fontSize: 40),
                         )
-                      : Text('${reps / 15}'),
+                      : Text('${(reps / 15).floor()}',
+                          style: const TextStyle(
+                            fontSize: 40,
+                          )),
                   widget.title != 'Plank' ? const Text('sets') : Text('min'),
                   const SizedBox(
                     height: 4,
@@ -141,7 +144,7 @@ class _CameraPageState extends State<CameraPage> {
                             sec.toString(),
                             style: const TextStyle(fontSize: 40),
                           )
-                        : Text('${reps}'),
+                        : Text('${reps}', style: const TextStyle(fontSize: 40)),
                     widget.title != 'Plank' ? const Text('reps') : Text('secs'),
                     SizedBox(height: 4)
                   ],
