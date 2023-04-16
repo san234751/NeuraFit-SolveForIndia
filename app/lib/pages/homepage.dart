@@ -5,7 +5,6 @@ import 'package:app/pages/profile_page.dart';
 import 'package:app/pages/session_page.dart';
 import 'package:app/pages/workouts.dart';
 import 'package:flutter/material.dart';
-import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,7 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
-    const MainScreen(),
+    MainScreen(),
     WorkOutPage(),
     SessionPage(),
     GraphPage(),
@@ -38,148 +37,89 @@ class _HomePageState extends State<HomePage> {
     initializeDateFormatting();
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            SizedBox(height: 10),
-            Text(
-              "Hello Sankit!",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 17,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-            Text(
-              "Thursday, 07 July",
-              style: TextStyle(
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
         backgroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.circle_notifications_outlined,
-              size: 36,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              // Navigate to notifications page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => NotificationPage(),
+        appBar: AppBar(
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              SizedBox(height: 10),
+              Text(
+                "Hello Sankit!",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w300,
                 ),
-              );
-            },
-          )
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: const Color.fromRGBO(27, 88, 91, 1),
-        unselectedItemColor: const Color.fromRGBO(71, 71, 71, 1),
-        backgroundColor: Colors.white,
-        currentIndex: _selectedIndex,
-        elevation: 0,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '',
+              ),
+              Text(
+                "Thursday, 07 July",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.sports_handball),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.add_circle,
-              color: Color.fromRGBO(255, 94, 88, 1),
-              size: 40,
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.paste,
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.account_circle_outlined,
-            ),
-            label: '',
-          ),
-        ],
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(width: double.infinity, height: 30),
-            CalendarTimeline(
-              initialDate: DateTime.now(),
-              firstDate: DateTime(DateTime.now().year, 1, 1),
-              lastDate: DateTime(
-                  DateTime.now().add(const Duration(hours: 24)).year,
-                  DateTime.now().add(const Duration(hours: 24)).month,
-                  DateTime.now().add(const Duration(hours: 24)).day),
-              onDateSelected: (date) => print(date),
-              leftMargin: 20,
-              monthColor: Colors.blueGrey,
-              dayColor: Colors.black54,
-              activeDayColor: const Color.fromRGBO(255, 224, 180, 1),
-              activeBackgroundDayColor: Colors.black,
-              dotsColor: Colors.white,
-              selectableDayPredicate: (date) => date.day <= DateTime.now().day,
-              locale: 'en_ISO',
-            ),
-            const SizedBox(width: double.infinity, height: 30),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.circle_notifications_outlined,
+                size: 36,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                // Navigate to notifications page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NotificationPage(),
+                  ),
+                );
+              },
+            )
           ],
         ),
-      ),
-    );
-  }
-
-  Future<String> request() async {
-    final devicesize = MediaQuery.of(context).size;
-    // SizedBox(
-    //   width: devicesize.width * 0.9,
-    //   child: ListView.builder(
-    //     shrinkWrap: true,
-    //     physics: NeverScrollableScrollPhysics(),
-    //     itemCount: completed.length,
-    //     itemBuilder: (context, index) {
-    //       return Column(
-    //         children: [
-    //           ListTile(
-    //             title: Text(completed[index]),
-    //             trailing: const Icon(Icons.sports_handball),
-    //             shape:
-    //                 OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-    //           ),
-    //           const SizedBox(height: 10),
-    //         ],
-    //       );
-    //     },
-    //   ),
-    // );
-    const url = "http://localhost:5000/sessions";
-    const userId = "1";
-    var uri = Uri.http(url, userId);
-    var res = await http.get(uri);
-
-    print(res.body);
-    return res.body;
+        bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: const Color.fromRGBO(27, 88, 91, 1),
+          unselectedItemColor: const Color.fromRGBO(71, 71, 71, 1),
+          backgroundColor: Colors.white,
+          currentIndex: _selectedIndex,
+          elevation: 0,
+          onTap: _onItemTapped,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.sports_handball),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.add_circle,
+                color: Color.fromRGBO(255, 94, 88, 1),
+                size: 40,
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.paste,
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.account_circle_outlined,
+              ),
+              label: '',
+            ),
+          ],
+        ),
+        body: Container(
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ));
   }
 }
