@@ -38,7 +38,7 @@ class _GraphPageState extends State<GraphPage> {
           type: 'value'
         },
         series: [{
-          data: [5, 4, 1, 0, 2, 2, 3],
+          data: [2, 1.2, 1, 0.3, 1.8, 2, 0],
           type: 'line'
         }]
       }
@@ -74,7 +74,7 @@ class _GraphPageState extends State<GraphPage> {
           },
           series: [
             {
-              data: [120, 200, 150, 80, 70, 110, 130],
+              data: [120, 200, 150, 80, 70, 110, 0],
               type: 'bar'
             }
           ]

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_echarts/flutter_echarts.dart';
 import 'package:http/http.dart' as http;
 
 class MainScreen extends StatefulWidget {
@@ -31,22 +32,25 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CalendarTimeline(
-          initialDate: DateTime.now(),
-          firstDate: DateTime(DateTime.now().year, 1, 1),
-          lastDate: DateTime(
-              DateTime.now().add(const Duration(hours: 24)).year,
-              DateTime.now().add(const Duration(hours: 24)).month,
-              DateTime.now().add(const Duration(hours: 24)).day),
-          onDateSelected: (date) => print(date),
-          leftMargin: 20,
-          monthColor: Colors.blueGrey,
-          dayColor: Colors.black54,
-          activeDayColor: const Color.fromRGBO(255, 224, 180, 1),
-          activeBackgroundDayColor: Colors.black,
-          dotsColor: Colors.white,
-          selectableDayPredicate: (date) => date.day <= DateTime.now().day,
-          locale: 'en_ISO',
+        Container(
+          decoration: BoxDecoration(color: Colors.white),
+          child: CalendarTimeline(
+            initialDate: DateTime.now(),
+            firstDate: DateTime(DateTime.now().year, 1, 1),
+            lastDate: DateTime(
+                DateTime.now().add(const Duration(hours: 24)).year,
+                DateTime.now().add(const Duration(hours: 24)).month,
+                DateTime.now().add(const Duration(hours: 24)).day),
+            onDateSelected: (date) => print(date),
+            leftMargin: MediaQuery.of(context).size.width * 0.3,
+            monthColor: Colors.blueGrey,
+            dayColor: Colors.black54,
+            activeDayColor: const Color.fromRGBO(255, 224, 180, 1),
+            activeBackgroundDayColor: Colors.black,
+            dotsColor: Colors.white,
+            selectableDayPredicate: (date) => date.day <= DateTime.now().day,
+            locale: 'en_ISO',
+          ),
         ),
         SizedBox(height: 20),
         Expanded(
@@ -66,7 +70,7 @@ class _MainScreenState extends State<MainScreen> {
                           SizedBox(height: 8),
                           ListView.builder(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            // physics: NeverScrollableScrollPhysics(),
                             itemCount: log['exercises'].length,
                             itemBuilder: (context, index) {
                               final exercise = log['exercises'][index];
@@ -77,7 +81,11 @@ class _MainScreenState extends State<MainScreen> {
                                 }
                               }
                               return ListTile(
-                                title: Text(exercise['metadata']['name']),
+                                title: Text(
+                                  exercise['metadata']['name']
+                                      .toString()
+                                      .capitalize(),
+                                ),
                                 subtitle: (exercise['type'] == 'cardio'
                                     ? Text(
                                         'Duration: ${exercise['metadata']['duration']}s')
@@ -93,6 +101,87 @@ class _MainScreenState extends State<MainScreen> {
                                 ),
                               );
                             },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          SizedBox(
+                            child: Echarts(
+                              option: '''
+                            {
+                              title: {
+                                  text: 'Accuracy'
+                                },
+                                tooltip: {
+                                  formatter: '{a} <br/>{b} : {c}%'
+                                },
+                                series: [
+                                  {
+                                    name: 'Pressure',
+                                    type: 'gauge',
+                                    progress: {
+                                      show: true
+                                    },
+                                    detail: {
+                                      valueAnimation: true,
+                                      formatter: '{value}'
+                                    },
+                                    data: [
+                                      {
+                                        value: 74.8,
+                                        name: 'Accuracy'
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ''',
+                            ),
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: MediaQuery.of(context).size.height / 3,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          SizedBox(
+                            child: Echarts(
+                              option: '''
+                            {
+                              legend: {
+                                data: ['Cardio Workout', 'Muscle Workout']
+                              },
+                              radar: {
+                                // shape: 'circle',
+                                indicator: [
+                                  { name: 'Accuracy', max: 100 },
+                                  { name: 'Calories', max: 100 },
+                                  { name: 'Duration', max: 100 },
+                                  { name: 'Reps', max: 100 },
+                                  { name: 'Progress', max: 100 },
+                                  
+                                ]
+                              },
+                              series: [
+                                {
+                                  name: 'Budget vs spending',
+                                  type: 'radar',
+                                  data: [
+                                    {
+                                      value: [90, 60, 0, 60,90],
+                                      name: 'Cardio Workout'
+                                    },
+                                    {
+                                      value: [80, 85, 95, 0,67],
+                                      name: 'Muscle Workout'
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                            ''',
+                            ),
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height / 2,
                           ),
                         ],
                       ),

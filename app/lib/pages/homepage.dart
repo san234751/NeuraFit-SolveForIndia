@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Text(
-                "Thursday, 07 July",
+                "Sunday, 16 April",
                 style: TextStyle(
                   color: Colors.black,
                 ),
