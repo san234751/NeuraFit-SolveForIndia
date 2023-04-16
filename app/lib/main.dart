@@ -1,4 +1,5 @@
 import 'package:app/pages/camera_page.dart';
+import 'package:app/pages/camera_yoga_page.dart';
 import 'package:app/pages/homepage.dart';
 import 'package:app/pages/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,6 +50,10 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/camerapage': (context) => CameraPage(
+              cameras: _cameras,
+              title: ModalRoute.of(context)!.settings.arguments as String,
+            ),
+        '/yogacamerapage': (context) => YogaCameraPage(
               cameras: _cameras,
               title: ModalRoute.of(context)!.settings.arguments as String,
             )

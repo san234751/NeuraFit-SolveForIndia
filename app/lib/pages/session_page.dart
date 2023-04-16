@@ -164,7 +164,7 @@ class _SessionPageState extends State<SessionPage> {
                       height: 50,
                       width: devicesize.width * 0.9,
                       decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: Colors.grey[400],
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(),
                       ),

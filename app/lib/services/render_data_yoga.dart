@@ -1,41 +1,42 @@
 import 'package:flutter/material.dart';
 
-class RenderDataArmPress extends StatefulWidget {
+class RenderDataYoga extends StatefulWidget {
   final List<dynamic> data;
   final int previewH;
   final int previewW;
   final double screenH;
   final double screenW;
-  Function callback;
 
-  RenderDataArmPress(
+  RenderDataYoga(
       {required this.data,
       required this.previewH,
       required this.previewW,
       required this.screenH,
-      required this.screenW,
-      required this.callback});
+      required this.screenW});
   @override
-  _RenderDataArmPressState createState() => _RenderDataArmPressState();
+  _RenderDataYogaState createState() => _RenderDataYogaState();
 }
 
-class _RenderDataArmPressState extends State<RenderDataArmPress> {
+class _RenderDataYogaState extends State<RenderDataYoga> {
   Map<String, List<double>>? inputArr;
 
-  String excercise = 'arm_press';
-  double upperRange = 300;
-  double lowerRange = 500;
-  bool? midCount, isCorrectPosture;
-  int? _counter;
+  String excercise = 'warrior';
   Color? correctColor;
-  double? shoulderLY;
-  double? shoulderRY;
+  Color? armColor, shoulderColor, legColor;
+  String? memo = 'Warrior position not aligned.';
 
-  double? wristLX, wristLY, wristRX, wristRY, elbowLX, elbowRX;
-  double? kneeRY;
-  double? kneeLY;
-  bool? squatUp;
-  String whatToDo = 'Finding Posture';
+  double? leftShoulderY,
+      rightShoulderY,
+      leftWristX,
+      leftWristY,
+      rightWristX,
+      rightWristY,
+      leftAnkleX,
+      rightAnkleX,
+      leftKneeY,
+      leftHipY;
+
+  bool? wristAlignment, shoulderAlignment, ankleAlignment, kneeAndHipAlignment;
 
   var leftEyePos = Vector(0, 0);
   var rightEyePos = Vector(0, 0);
@@ -55,109 +56,82 @@ class _RenderDataArmPressState extends State<RenderDataArmPress> {
   @override
   void initState() {
     inputArr = new Map();
-    midCount = false;
-    isCorrectPosture = false;
-    _counter = 0;
     correctColor = Colors.red;
-    shoulderLY = 0;
-    shoulderRY = 0;
-    kneeRY = 0;
-    kneeLY = 0;
-    squatUp = true;
+    wristAlignment = false;
+    shoulderAlignment = false;
+    ankleAlignment = false;
+    kneeAndHipAlignment = false;
+    armColor = Colors.red;
+    shoulderColor = Colors.red;
+    legColor = Colors.red;
     super.initState();
   }
 
-  bool _postureAccordingToExercise(Map<String, List<double>> poses) {
+  void _postureAccordingToExercise(Map<String, List<double>> poses) {
     setState(() {
-      wristLX = poses['leftWrist']![0];
-      wristLY = poses['leftWrist']![1];
-      wristRX = poses['rightWrist']![0];
-      wristRY = poses['rightWrist']![1];
-      elbowLX = poses['leftElbow']![0];
-      elbowRX = poses['rightElbow']![0];
-
-      shoulderLY = poses['leftShoulder']![1];
-      shoulderRY = poses['rightShoulder']![1];
-      kneeLY = poses['leftKnee']![1];
-      kneeRY = poses['rightKnee']![1];
+      leftShoulderY = poses['leftShoulder']![1];
+      rightShoulderY = poses['rightShoulder']![1];
+      leftWristX = poses['leftWrist']![0];
+      leftWristY = poses['leftWrist']![1];
+      rightWristX = poses['rightWrist']![0];
+      rightWristY = poses['leftWrist']![1];
+      leftAnkleX = poses['leftAnkle']![0];
+      rightAnkleX = poses['rightAnkle']![0];
+      leftKneeY = poses['leftKnee']![1];
+      leftHipY = poses['leftHip']![1];
     });
-    if (excercise == 'arm_press') {
-      if (squatUp!) {
-        return wristLX! > 280 &&
-            elbowLX! > 280 &&
-            wristRX! < 95 &&
-            elbowRX! < 95 &&
-            wristLY! < 240 &&
-            wristLY! > 200 &&
-            wristRY! < 240 &&
-            wristRY! > 200;
-      } else {
-        return wristLY! < 125 && wristRY! < 125;
-      }
-    }
-    return false;
-  }
 
-  _checkCorrectPosture(Map<String, List<double>> poses) {
-    if (_postureAccordingToExercise(poses)) {
-      if (!isCorrectPosture!) {
-        setState(() {
-          isCorrectPosture = true;
-          correctColor = Colors.green;
-        });
-      }
+    if (leftWristY! > 120 &&
+        rightWristY! > 120 &&
+        leftWristX! < 255 &&
+        leftWristX! > 200 &&
+        rightWristX! < 255 &&
+        rightWristX! > 160) {
+      wristAlignment = true;
+      setState(() {
+        armColor = Colors.green;
+        shoulderColor = Colors.green;
+      });
     } else {
-      if (isCorrectPosture!) {
-        setState(() {
-          isCorrectPosture = false;
-          correctColor = Colors.red;
-        });
-      }
+      wristAlignment = false;
+      setState(() {
+        armColor = Colors.red;
+        shoulderColor = Colors.red;
+      });
     }
-  }
-
-  Future<void> _countingLogic(Map<String, List<double>> poses) async {
-    if (poses != null) {
-      _checkCorrectPosture(poses);
-
-      if (isCorrectPosture! && squatUp! && midCount == false) {
-        //in correct initial posture
-        setState(() {
-          whatToDo = 'Lift';
-          //correctColor = Colors.green;
-        });
-        squatUp = !squatUp!;
-        isCorrectPosture = false;
-      }
-
-      //lowered all the way
-      if (isCorrectPosture! && !squatUp! && midCount == false) {
-        midCount = true;
-        isCorrectPosture = false;
-        squatUp = !squatUp!;
-        setState(() {
-          whatToDo = 'Drop';
-          //correctColor = Colors.green;
-        });
-      }
-
-      //back up
-      if (midCount! && isCorrectPosture!) {
-        incrementCounter();
-        midCount = false;
-        squatUp = !squatUp!;
-        setState(() {
-          whatToDo = 'Lift';
-        });
-      }
+    if (leftAnkleX! > 360 && rightAnkleX! < 60) {
+      ankleAlignment = true;
+      setState(() {
+        legColor = Colors.green;
+      });
+    } else {
+      ankleAlignment = false;
+      setState(() {
+        legColor = Colors.red;
+      });
     }
-  }
-
-  void incrementCounter() {
-    setState(() {
-      _counter = _counter! + 1;
-    });
-    widget.callback(_counter);
+    if (leftKneeY! > 580 && leftHipY! > 505) {
+      kneeAndHipAlignment = true;
+      setState(() {
+        //legColor = Colors.green;
+      });
+    } else {
+      kneeAndHipAlignment = false;
+      setState(() {
+        legColor = Colors.red;
+      });
+    }
+    if (wristAlignment! && ankleAlignment! && kneeAndHipAlignment!) {
+      setState(() {
+        correctColor = Colors.green;
+        memo = 'Warrior position aligned!';
+      });
+    } else {
+      setState(() {
+        correctColor = Colors.red;
+        memo = 'Warrior position not aligned.';
+      });
+    }
   }
 
   @override
@@ -223,7 +197,7 @@ class _RenderDataArmPressState extends State<RenderDataArmPress> {
 
     List<Widget> _renderKeypoints() {
       var lists = <Widget>[];
-      for (var re in widget.data) {
+      widget.data.forEach((re) {
         var list = re["keypoints"].values.map<Widget>((k) {
           var _x = k["x"];
           var _y = k["y"];
@@ -280,11 +254,13 @@ class _RenderDataArmPressState extends State<RenderDataArmPress> {
           );
         }).toList();
 
-        _countingLogic(inputArr!);
+        _postureAccordingToExercise(inputArr!);
         inputArr!.clear();
 
-        lists.addAll(list);
-      }
+        lists..addAll(list);
+      });
+      //lists.clear();
+
       return lists;
     }
 
@@ -296,69 +272,83 @@ class _RenderDataArmPressState extends State<RenderDataArmPress> {
               painter: MyPainter(
                   left: leftShoulderPos,
                   right: rightShoulderPos,
-                  color: correctColor!),
+                  color: shoulderColor!),
             ),
             CustomPaint(
               painter: MyPainter(
-                  left: leftElbowPos,
-                  right: leftShoulderPos,
-                  color: correctColor!),
+                  left: leftElbowPos, right: leftShoulderPos, color: armColor!),
             ),
             CustomPaint(
               painter: MyPainter(
-                  left: leftWristPos,
-                  right: leftElbowPos,
-                  color: correctColor!),
+                  left: leftWristPos, right: leftElbowPos, color: armColor!),
             ),
             CustomPaint(
               painter: MyPainter(
                   left: rightElbowPos,
                   right: rightShoulderPos,
-                  color: correctColor!),
+                  color: armColor!),
             ),
             CustomPaint(
               painter: MyPainter(
-                  left: rightWristPos,
-                  right: rightElbowPos,
-                  color: correctColor!),
+                  left: rightWristPos, right: rightElbowPos, color: armColor!),
             ),
             CustomPaint(
               painter: MyPainter(
                   left: leftShoulderPos,
                   right: leftHipPos,
-                  color: correctColor!),
+                  color: shoulderColor!),
             ),
             CustomPaint(
               painter: MyPainter(
-                  left: leftHipPos, right: leftKneePos, color: correctColor!),
+                  left: leftHipPos, right: leftKneePos, color: legColor!),
             ),
             CustomPaint(
               painter: MyPainter(
-                  left: leftKneePos, right: leftAnklePos, color: correctColor!),
+                  left: leftKneePos, right: leftAnklePos, color: legColor!),
             ),
             CustomPaint(
               painter: MyPainter(
                   left: rightShoulderPos,
                   right: rightHipPos,
-                  color: correctColor!),
+                  color: shoulderColor!),
             ),
             CustomPaint(
               painter: MyPainter(
-                  left: rightHipPos, right: rightKneePos, color: correctColor!),
+                  left: rightHipPos, right: rightKneePos, color: legColor!),
             ),
             CustomPaint(
               painter: MyPainter(
-                  left: rightKneePos,
-                  right: rightAnklePos,
-                  color: correctColor!),
+                  left: rightKneePos, right: rightAnklePos, color: legColor!),
             ),
             CustomPaint(
               painter: MyPainter(
-                  left: leftHipPos, right: rightHipPos, color: correctColor!),
+                  left: leftHipPos, right: rightHipPos, color: shoulderColor!),
             ),
           ],
         ),
         Stack(children: _renderKeypoints()),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            height: 50,
+            width: widget.screenW,
+            decoration: BoxDecoration(
+              color: correctColor,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25.0),
+                  topRight: Radius.circular(25)),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  //'$whatToDo\nArm Presses: ${_counter.toString()}',
+                  '$memo',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -372,15 +362,14 @@ class Vector {
 class MyPainter extends CustomPainter {
   Vector left;
   Vector right;
-  Color color = Colors.red;
-
+  Color color;
   MyPainter({required this.left, required this.right, required this.color});
   @override
   void paint(Canvas canvas, Size size) {
     final p1 = Offset(left.x, left.y);
     final p2 = Offset(right.x, right.y);
     final paint = Paint()
-      ..color = color
+      ..color = color //Colors.blue
       ..strokeWidth = 4;
     canvas.drawLine(p1, p2, paint);
   }

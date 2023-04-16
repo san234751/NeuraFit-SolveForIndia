@@ -1,3 +1,4 @@
+import 'package:app/pages/camera_yoga_page.dart';
 import 'package:app/widget/search_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class WorkOutPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 50),
-              Text(
+              const Text(
                 'Workout',
                 style: TextStyle(
                   color: Color(0xFFFE7C7C),
@@ -37,43 +38,49 @@ class WorkOutPage extends StatelessWidget {
                       color: Color(0xFF953CE6),
                       borderRadius: BorderRadius.circular(18.0),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Row(
-                        //mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Cardio',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed('/yogacamerapage', arguments: 'Yoga');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Row(
+                          //mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Text(
+                                  'Cardio',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 20.0),
-                              Text(
-                                '30 minutes',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
+                                SizedBox(height: 20.0),
+                                Text(
+                                  '30 minutes',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'Medium activity',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
+                                Text(
+                                  'Medium activity',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Expanded(
-                            child: Image.asset('images/cardio.PNG'),
-                          ),
-                        ],
+                              ],
+                            ),
+                            Expanded(
+                              child: Image.asset('images/cardio.PNG'),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -92,7 +99,7 @@ class WorkOutPage extends StatelessWidget {
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: const [
                               Text(
                                 'Pilates',
                                 style: TextStyle(
@@ -138,7 +145,7 @@ class WorkOutPage extends StatelessWidget {
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: const [
                               Text(
                                 'Yoga',
                                 style: TextStyle(

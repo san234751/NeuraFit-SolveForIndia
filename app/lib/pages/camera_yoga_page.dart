@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
-class CameraPage extends StatefulWidget {
+class YogaCameraPage extends StatefulWidget {
   final List<CameraDescription> cameras;
   final String? title;
-  const CameraPage({Key? key, required this.cameras, required this.title})
+  const YogaCameraPage({Key? key, required this.cameras, required this.title})
       : super(key: key);
   @override
-  State<CameraPage> createState() => _CameraPageState();
+  State<YogaCameraPage> createState() => _YogaCameraPageState();
 }
 
-class _CameraPageState extends State<CameraPage> {
+class _YogaCameraPageState extends State<YogaCameraPage> {
   bool ispause = false;
   bool hasStarted = false;
   int sec = 0;
@@ -115,7 +115,7 @@ class _CameraPageState extends State<CameraPage> {
                     borderRadius: BorderRadius.circular(10)),
                 child:
                     Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  widget.title == 'Plank'
+                  widget.title == 'Yoga'
                       ? Text(
                           min.toString(),
                           style: const TextStyle(fontSize: 40),
@@ -124,7 +124,7 @@ class _CameraPageState extends State<CameraPage> {
                           style: const TextStyle(
                             fontSize: 40,
                           )),
-                  widget.title != 'Plank' ? const Text('sets') : Text('min'),
+                  widget.title != 'Yoga' ? const Text('sets') : Text('min'),
                   const SizedBox(
                     height: 4,
                   )
@@ -139,13 +139,13 @@ class _CameraPageState extends State<CameraPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    widget.title == 'Plank'
+                    widget.title == 'Yoga'
                         ? Text(
                             sec.toString(),
                             style: const TextStyle(fontSize: 40),
                           )
                         : Text('${reps}', style: const TextStyle(fontSize: 40)),
-                    widget.title != 'Plank' ? const Text('reps') : Text('secs'),
+                    widget.title != 'Yoga' ? const Text('reps') : Text('secs'),
                     SizedBox(height: 4)
                   ],
                 ),
@@ -153,7 +153,7 @@ class _CameraPageState extends State<CameraPage> {
               InkWell(
                 onTap: () {
                   timer?.cancel();
-                  if (widget.title == 'Plank') {
+                  if (widget.title == 'Yoga') {
                     Navigator.of(context).pop([widget.title, min * 60 + sec]);
                   } else {
                     Navigator.of(context).pop([widget.title, reps]);

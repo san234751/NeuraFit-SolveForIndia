@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 
-class RenderDataArmPress extends StatefulWidget {
+class RenderData extends StatefulWidget {
   final List<dynamic> data;
   final int previewH;
   final int previewW;
@@ -8,7 +9,7 @@ class RenderDataArmPress extends StatefulWidget {
   final double screenW;
   Function callback;
 
-  RenderDataArmPress(
+  RenderData(
       {required this.data,
       required this.previewH,
       required this.previewW,
@@ -16,13 +17,13 @@ class RenderDataArmPress extends StatefulWidget {
       required this.screenW,
       required this.callback});
   @override
-  _RenderDataArmPressState createState() => _RenderDataArmPressState();
+  _RenderDataState createState() => _RenderDataState();
 }
 
-class _RenderDataArmPressState extends State<RenderDataArmPress> {
+class _RenderDataState extends State<RenderData> {
   Map<String, List<double>>? inputArr;
 
-  String excercise = 'arm_press';
+  String excercise = 'squat';
   double upperRange = 300;
   double lowerRange = 500;
   bool? midCount, isCorrectPosture;
@@ -30,8 +31,6 @@ class _RenderDataArmPressState extends State<RenderDataArmPress> {
   Color? correctColor;
   double? shoulderLY;
   double? shoulderRY;
-
-  double? wristLX, wristLY, wristRX, wristRY, elbowLX, elbowRX;
   double? kneeRY;
   double? kneeLY;
   bool? squatUp;
@@ -69,33 +68,26 @@ class _RenderDataArmPressState extends State<RenderDataArmPress> {
 
   bool _postureAccordingToExercise(Map<String, List<double>> poses) {
     setState(() {
-      wristLX = poses['leftWrist']![0];
-      wristLY = poses['leftWrist']![1];
-      wristRX = poses['rightWrist']![0];
-      wristRY = poses['rightWrist']![1];
-      elbowLX = poses['leftElbow']![0];
-      elbowRX = poses['rightElbow']![0];
-
       shoulderLY = poses['leftShoulder']![1];
       shoulderRY = poses['rightShoulder']![1];
       kneeLY = poses['leftKnee']![1];
       kneeRY = poses['rightKnee']![1];
     });
-    if (excercise == 'arm_press') {
+    if (excercise == 'squat') {
       if (squatUp!) {
-        return wristLX! > 280 &&
-            elbowLX! > 280 &&
-            wristRX! < 95 &&
-            elbowRX! < 95 &&
-            wristLY! < 240 &&
-            wristLY! > 200 &&
-            wristRY! < 240 &&
-            wristRY! > 200;
+        return poses['leftShoulder']![1] < 320 &&
+            poses['leftShoulder']![1] > 280 &&
+            poses['rightShoulder']![1] < 320 &&
+            poses['rightShoulder']![1] > 280 &&
+            poses['rightKnee']![1] > 570 &&
+            poses['leftKnee']![1] > 570;
       } else {
-        return wristLY! < 125 && wristRY! < 125;
+        return poses['leftShoulder']![1] > 475 &&
+            poses['rightShoulder']![1] > 475;
       }
+    } else {
+      return false;
     }
-    return false;
   }
 
   _checkCorrectPosture(Map<String, List<double>> poses) {
@@ -123,7 +115,7 @@ class _RenderDataArmPressState extends State<RenderDataArmPress> {
       if (isCorrectPosture! && squatUp! && midCount == false) {
         //in correct initial posture
         setState(() {
-          whatToDo = 'Lift';
+          whatToDo = 'Squat Down';
           //correctColor = Colors.green;
         });
         squatUp = !squatUp!;
@@ -136,18 +128,22 @@ class _RenderDataArmPressState extends State<RenderDataArmPress> {
         isCorrectPosture = false;
         squatUp = !squatUp!;
         setState(() {
-          whatToDo = 'Drop';
+          whatToDo = 'Go Up';
           //correctColor = Colors.green;
         });
       }
 
       //back up
-      if (midCount! && isCorrectPosture!) {
+      if (midCount! &&
+          poses['leftShoulder']![1] < 320 &&
+          poses['leftShoulder']![1] > 280 &&
+          poses['rightShoulder']![1] < 320 &&
+          poses['rightShoulder']![1] > 280) {
         incrementCounter();
         midCount = false;
         squatUp = !squatUp!;
         setState(() {
-          whatToDo = 'Lift';
+          //whatToDo = 'Go Up';
         });
       }
     }
@@ -223,7 +219,7 @@ class _RenderDataArmPressState extends State<RenderDataArmPress> {
 
     List<Widget> _renderKeypoints() {
       var lists = <Widget>[];
-      for (var re in widget.data) {
+      widget.data.forEach((re) {
         var list = re["keypoints"].values.map<Widget>((k) {
           var _x = k["x"];
           var _y = k["y"];
@@ -283,8 +279,10 @@ class _RenderDataArmPressState extends State<RenderDataArmPress> {
         _countingLogic(inputArr!);
         inputArr!.clear();
 
-        lists.addAll(list);
-      }
+        lists..addAll(list);
+      });
+      //lists.clear();
+
       return lists;
     }
 
@@ -359,6 +357,27 @@ class _RenderDataArmPressState extends State<RenderDataArmPress> {
           ],
         ),
         Stack(children: _renderKeypoints()),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            height: 50,
+            width: widget.screenW,
+            decoration: BoxDecoration(
+              color: correctColor,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25.0),
+                  topRight: Radius.circular(25)),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  '$whatToDo\nArm Presses: ${_counter.toString()}',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -372,8 +391,7 @@ class Vector {
 class MyPainter extends CustomPainter {
   Vector left;
   Vector right;
-  Color color = Colors.red;
-
+  Color color;
   MyPainter({required this.left, required this.right, required this.color});
   @override
   void paint(Canvas canvas, Size size) {
@@ -390,3 +408,75 @@ class MyPainter extends CustomPainter {
     return false;
   }
 }
+
+// class MyPainter extends CustomPainter {
+//   Vector leftShoulderPos;
+//   Vector rightShoulderPos;
+//   Vector leftHipPos;
+//   Vector rightHipPos;
+//   Vector leftElbowPos;
+//   Vector rightElbowPos;
+//   Vector leftWristPos;
+//   Vector rightWristPos;
+//   Vector leftKneePos;
+//   Vector rightKneePos;
+//   Vector leftAnklePos;
+//   Vector rightAnklePos;
+//   MyPainter(
+//       {this.leftShoulderPos,
+//       this.leftAnklePos,
+//       this.leftElbowPos,
+//       this.leftHipPos,
+//       this.leftKneePos,
+//       this.leftWristPos,
+//       this.rightAnklePos,
+//       this.rightElbowPos,
+//       this.rightHipPos,
+//       this.rightKneePos,
+//       this.rightShoulderPos,
+//       this.rightWristPos});
+//   @override
+//   void paint(Canvas canvas, Size size) {
+//     final pointMode = ui.PointMode.polygon;
+//     final points = [
+//       Offset(leftWristPos.x, leftWristPos.y),
+//       Offset(leftElbowPos.x, leftElbowPos.y),
+//       Offset(leftShoulderPos.x, leftShoulderPos.y),
+//       Offset(leftHipPos.x, leftHipPos.y),
+//       Offset(leftKneePos.x, leftKneePos.y),
+//       Offset(leftAnklePos.x, leftAnklePos.y),
+//       Offset(rightHipPos.x, rightHipPos.y),
+//       Offset(rightKneePos.x, rightKneePos.y),
+//       Offset(rightAnklePos.x, rightAnklePos.y),
+//       Offset(rightShoulderPos.x, rightShoulderPos.y),
+//       Offset(rightElbowPos.x, rightElbowPos.y),
+//       Offset(rightWristPos.x, rightWristPos.y),
+//     ];
+//     final paint = Paint()
+//       ..color = Colors.black
+//       ..strokeWidth = 4
+//       ..strokeCap = StrokeCap.round;
+//     canvas.drawPoints(pointMode, points, paint);
+//   }
+
+//   @override
+//   bool shouldRepaint(CustomPainter old) {
+//     return false;
+//   }
+// }
+
+// CustomPaint(
+//               painter: MyPainter(
+//                   leftShoulderPos: leftShoulderPos,
+//                   leftElbowPos: leftElbowPos,
+//                   leftWristPos: leftWristPos,
+//                   leftHipPos: leftHipPos,
+//                   leftKneePos: leftKneePos,
+//                   leftAnklePos: leftAnklePos,
+//                   rightHipPos: rightHipPos,
+//                   rightKneePos: rightKneePos,
+//                   rightAnklePos: rightAnklePos,
+//                   rightShoulderPos: rightShoulderPos,
+//                   rightElbowPos: rightElbowPos,
+//                   rightWristPos: rightWristPos),
+//             ),

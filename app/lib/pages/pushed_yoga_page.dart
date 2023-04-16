@@ -1,5 +1,6 @@
 import 'package:app/services/render_data_plank.dart';
 import 'package:app/services/render_data_squat.dart';
+import 'package:app/services/render_data_yoga.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:tflite/tflite.dart';
@@ -8,21 +9,21 @@ import 'dart:math';
 import 'package:app/services/camera.dart';
 import 'package:app/services/render_data_arm_press.dart';
 
-class PushedPage extends StatefulWidget {
+class PushedYogaPage extends StatefulWidget {
   final List<CameraDescription> cameras;
   final String title;
   Function callback;
-  PushedPage({
+  PushedYogaPage({
     Key? key,
     required this.cameras,
     required this.title,
     required this.callback,
   }) : super(key: key);
   @override
-  _PushedPageState createState() => _PushedPageState();
+  _PushedYogaPageState createState() => _PushedYogaPageState();
 }
 
-class _PushedPageState extends State<PushedPage> {
+class _PushedYogaPageState extends State<PushedYogaPage> {
   List<dynamic>? _data;
   int _imageHeight = 0;
   int _imageWidth = 0;
@@ -64,31 +65,13 @@ class _PushedPageState extends State<PushedPage> {
           cameras: widget.cameras,
           setRecognitions: _setRecognitions,
         ),
-        widget.title == 'Plank'
-            ? RenderDataPlank(
-                data: _data ?? [],
-                previewH: max(_imageHeight, _imageWidth),
-                previewW: min(_imageHeight, _imageWidth),
-                screenH: screen.height,
-                screenW: screen.width,
-              )
-            : widget.title == 'Squat'
-                ? RenderData(
-                    callback: getreps,
-                    data: _data ?? [],
-                    previewH: max(_imageHeight, _imageWidth),
-                    previewW: min(_imageHeight, _imageWidth),
-                    screenH: screen.height,
-                    screenW: screen.width,
-                  )
-                : RenderDataArmPress(
-                    callback: getreps,
-                    data: _data ?? [],
-                    previewH: max(_imageHeight, _imageWidth),
-                    previewW: min(_imageHeight, _imageWidth),
-                    screenH: screen.height,
-                    screenW: screen.width,
-                  )
+        RenderDataYoga(
+          data: _data ?? [],
+          previewH: max(_imageHeight, _imageWidth),
+          previewW: min(_imageHeight, _imageWidth),
+          screenH: screen.height,
+          screenW: screen.width,
+        )
       ],
     );
   }

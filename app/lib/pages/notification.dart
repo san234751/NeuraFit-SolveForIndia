@@ -17,13 +17,16 @@ class _NotificationPageState extends State<NotificationPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-            child: Text('Notifications',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                )),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
+            child: Text(
+              'Notifications',
+              style: TextStyle(
+                color: Color(0xFFFE7C7C),
+                fontWeight: FontWeight.bold,
+                fontSize: 28.0,
+              ),
+            ),
           ),
           SizedBox(height: 20),
           Padding(
