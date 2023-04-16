@@ -5,6 +5,9 @@ import 'package:app/pages/profile_page.dart';
 import 'package:app/pages/session_page.dart';
 import 'package:app/pages/workouts.dart';
 import 'package:flutter/material.dart';
+import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,8 +32,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final devicesize = MediaQuery.of(context).size;
+  Widget build(
+    BuildContext context,
+  ) {
+    initializeDateFormatting();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -115,7 +121,65 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(width: double.infinity, height: 30),
+            CalendarTimeline(
+              initialDate: DateTime.now(),
+              firstDate: DateTime(DateTime.now().year, 1, 1),
+              lastDate: DateTime(
+                  DateTime.now().add(const Duration(hours: 24)).year,
+                  DateTime.now().add(const Duration(hours: 24)).month,
+                  DateTime.now().add(const Duration(hours: 24)).day),
+              onDateSelected: (date) => print(date),
+              leftMargin: 20,
+              monthColor: Colors.blueGrey,
+              dayColor: Colors.black54,
+              activeDayColor: const Color.fromRGBO(255, 224, 180, 1),
+              activeBackgroundDayColor: Colors.black,
+              dotsColor: Colors.white,
+              selectableDayPredicate: (date) => date.day <= DateTime.now().day,
+              locale: 'en_ISO',
+            ),
+            const SizedBox(width: double.infinity, height: 30),
+          ],
+        ),
       ),
     );
+  }
+
+  Future<String> request() async {
+    final devicesize = MediaQuery.of(context).size;
+    // SizedBox(
+    //   width: devicesize.width * 0.9,
+    //   child: ListView.builder(
+    //     shrinkWrap: true,
+    //     physics: NeverScrollableScrollPhysics(),
+    //     itemCount: completed.length,
+    //     itemBuilder: (context, index) {
+    //       return Column(
+    //         children: [
+    //           ListTile(
+    //             title: Text(completed[index]),
+    //             trailing: const Icon(Icons.sports_handball),
+    //             shape:
+    //                 OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+    //           ),
+    //           const SizedBox(height: 10),
+    //         ],
+    //       );
+    //     },
+    //   ),
+    // );
+    const url = "http://localhost:5000/sessions";
+    const userId = "1";
+    var uri = Uri.http(url, userId);
+    var res = await http.get(uri);
+
+    print(res.body);
+    return res.body;
   }
 }
