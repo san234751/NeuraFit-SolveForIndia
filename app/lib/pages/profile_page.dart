@@ -18,7 +18,7 @@ class ProfilePage extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
-            "Notifications",
+            "Sankit Kundu",
             style: TextStyle(
               color: Colors.black,
               fontSize: 17,
@@ -26,10 +26,10 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
-            'johndoe@example.com',
+            'sankit20_ug@ee.nits.ac.in',
             style: TextStyle(
               fontSize: 18,
             ),
