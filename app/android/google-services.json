@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "563517293962",
+    "project_id": "solve-for-india-98e38",
+    "storage_bucket": "solve-for-india-98e38.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563517293962:android:f89945622f4a179a0b7473",
+        "android_client_info": {
+          "package_name": "com.example.vite"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563517293962-i8adkb6909m2r7a9flqfq3amgnbot7jl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vite",
+            "certificate_hash": "4b8aca1dfc07dc1c722218e63f6336f0c40db9db"
+          }
+        },
+        {
+          "client_id": "563517293962-lm3g37ktte1uqrae2f4dqsqskh05nu1h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vite",
+            "certificate_hash": "f9507bca8f1755bb7b595b4d225cd2d7470ac321"
+          }
+        },
+        {
+          "client_id": "563517293962-je9cdqi5ca67qle5nnrji1hgsfug34bn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0ejkIMqwMhXlEuLeDC5RAENIxsFkUDV8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563517293962-je9cdqi5ca67qle5nnrji1hgsfug34bn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
