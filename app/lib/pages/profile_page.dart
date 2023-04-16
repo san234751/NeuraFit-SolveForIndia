@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -63,8 +64,11 @@ class ProfilePage extends StatelessWidget {
         ListTile(
           leading: Icon(Icons.logout),
           title: Text('Logout'),
-          onTap: () {
+          onTap: () async {
             // Logout
+            final googlesignin = GoogleSignIn();
+            await FirebaseAuth.instance.signOut();
+            await googlesignin.signOut();
           },
         ),
       ],
