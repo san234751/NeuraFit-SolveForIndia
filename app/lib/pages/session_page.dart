@@ -1,4 +1,5 @@
 import 'package:app/pages/add_exercise.dart';
+import 'package:app/pages/homepage.dart';
 import 'package:app/widget/card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,13 @@ class _SessionPageState extends State<SessionPage> {
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        const HomePage(),
+                                  ),
+                                  (route) => false,
+                                );
                               },
                             ),
                           ),
@@ -221,7 +228,13 @@ class _SessionPageState extends State<SessionPage> {
                               },
                             );
                           }
-                          Navigator.of(context).pop();
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  const HomePage(),
+                            ),
+                            (route) => false,
+                          );
                         },
                       ),
                     ),
