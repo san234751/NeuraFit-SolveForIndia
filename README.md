@@ -35,7 +35,7 @@ Step 2: Install Dependencies
 Navigate to the cloned repository in your local development environment and run the following command to install the required dependencies: 
 
 ```bash
-cd solveforindia
+cd solveforindia/app
 flutter pub get
 ```
 

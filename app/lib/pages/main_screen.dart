@@ -29,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+  void set(date) => setState(() {});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -60,55 +61,55 @@ class _MainScreenState extends State<MainScreen> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final logs = snapshot.data!;
-                return ListView.builder(
-                  itemCount: logs.length,
-                  itemBuilder: (context, index) {
-                    final log = logs[index];
-                    return ListTile(
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 8),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            // physics: NeverScrollableScrollPhysics(),
-                            itemCount: log['exercises'].length,
-                            itemBuilder: (context, index) {
-                              final exercise = log['exercises'][index];
-                              var reps = "";
-                              if (exercise['type'] != "cardio") {
-                                for (var elem in exercise['metadata']['reps']) {
-                                  reps += '$elem ';
-                                }
-                              }
-                              return ListTile(
-                                title: Text(
-                                  exercise['metadata']['name']
-                                      .toString()
-                                      .capitalize(),
+                return (snapshot.data != []
+                    ? ListView.builder(
+                        itemCount: logs.length,
+                        itemBuilder: (context, index) {
+                          final log = logs[index];
+                          return ListTile(
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 8),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  // physics: NeverScrollableScrollPhysics(),
+                                  itemCount: log['exercises'].length,
+                                  itemBuilder: (context, index) {
+                                    final exercise = log['exercises'][index];
+                                    var reps = "";
+                                    if (exercise['type'] != "cardio") {
+                                      for (var elem in exercise['metadata']
+                                          ['reps']) {
+                                        reps += '$elem ';
+                                      }
+                                    }
+                                    return ListTile(
+                                      title: Text(
+                                        exercise['metadata']['name'].toString(),
+                                      ),
+                                      subtitle: (exercise['type'] == 'cardio'
+                                          ? Text(
+                                              'Duration: ${exercise['metadata']['duration']}s')
+                                          : Text(
+                                              'Sets: ${exercise['metadata']['reps'].length} Reps: $reps')),
+                                      trailing: (exercise['type'] == 'cardio'
+                                          ? Icon(Icons.sports_handball)
+                                          : Icon(Icons.sports_kabaddi)),
+                                      shape: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                    );
+                                  },
                                 ),
-                                subtitle: (exercise['type'] == 'cardio'
-                                    ? Text(
-                                        'Duration: ${exercise['metadata']['duration']}s')
-                                    : Text(
-                                        'Sets: ${exercise['metadata']['reps'].length} Reps: $reps')),
-                                trailing: (exercise['type'] == 'cardio'
-                                    ? Icon(Icons.sports_handball)
-                                    : Icon(Icons.sports_kabaddi)),
-                                shape: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide: BorderSide(
-                                      color: Colors.black, width: 1.0),
+                                SizedBox(
+                                  height: 20,
                                 ),
-                              );
-                            },
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                            child: Echarts(
-                              option: '''
+                                SizedBox(
+                                  child: Echarts(
+                                    option: '''
                             {
                               title: {
                                   text: 'Accuracy'
@@ -137,16 +138,18 @@ class _MainScreenState extends State<MainScreen> {
                                 ]
                               }
                             ''',
-                            ),
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            height: MediaQuery.of(context).size.height / 3,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                            child: Echarts(
-                              option: '''
+                                  ),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  height:
+                                      MediaQuery.of(context).size.height / 3,
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                SizedBox(
+                                  child: Echarts(
+                                    option: '''
                             {
                               legend: {
                                 data: ['Cardio Workout', 'Muscle Workout']
@@ -180,19 +183,25 @@ class _MainScreenState extends State<MainScreen> {
                               ]
                             }
                             ''',
+                                  ),
+                                  width: MediaQuery.of(context).size.width - 20,
+                                  height:
+                                      MediaQuery.of(context).size.height / 2,
+                                ),
+                              ],
                             ),
-                            width: MediaQuery.of(context).size.width - 20,
-                            height: MediaQuery.of(context).size.height / 2,
-                          ),
+                          );
+                        },
+                      )
+                    : Column(
+                        children: [
+                          Image.asset('images/fitness_tracker.png',
+                              fit: BoxFit.contain),
+                          Text('Hey! How about a quick session now?')
                         ],
-                      ),
-                    );
-                  },
-                );
+                      ));
               } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error fetching details'),
-                );
+                return Text('Error loading field');
               } else {
                 return Center(
                   child: CircularProgressIndicator(),
