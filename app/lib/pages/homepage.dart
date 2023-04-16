@@ -4,6 +4,7 @@ import 'package:app/pages/main_screen.dart';
 import 'package:app/pages/profile_page.dart';
 import 'package:app/pages/session_page.dart';
 import 'package:app/pages/workouts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +17,31 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  List<String> month = [
+    'Jan',
+    'Feb',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'Aug',
+    'Sept',
+    'Nov',
+    'Dec'
+  ];
+
+  List<String> week = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ];
+
+  DateTime date = DateTime.now();
   final List<Widget> _widgetOptions = <Widget>[
     MainScreen(),
     WorkOutPage(),
@@ -41,10 +67,10 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               SizedBox(height: 10),
               Text(
-                "Hello Sankit!",
+                "Hello ${FirebaseAuth.instance.currentUser!.displayName.toString().split(' ')[0]}!",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 17,
@@ -52,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Text(
-                "Sunday, 16 April",
+                "${week[date.weekday - 1]}, ${date.day} ${month[date.month - 1]}",
                 style: TextStyle(
                   color: Colors.black,
                 ),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -15,21 +16,21 @@ class ProfilePage extends StatelessWidget {
             backgroundImage: AssetImage('images/img1.png'),
           ),
         ),
-        const Padding(
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
-            "Sankit Kundu",
-            style: TextStyle(
+            FirebaseAuth.instance.currentUser!.displayName.toString(),
+            style: const TextStyle(
               color: Colors.black,
               fontSize: 17,
               fontWeight: FontWeight.w300,
             ),
           ),
         ),
-        const Padding(
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
-            'sankit20_ug@ee.nits.ac.in',
+            FirebaseAuth.instance.currentUser!.email.toString(),
             style: TextStyle(
               fontSize: 18,
             ),

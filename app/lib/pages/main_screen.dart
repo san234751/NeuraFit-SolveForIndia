@@ -22,6 +22,7 @@ class _MainScreenState extends State<MainScreen> {
     final response =
         await http.get(Uri.parse('https://sfi-backend.onrender.com/session/1'));
     if (response.statusCode == 200) {
+      print(response.body);
       return jsonDecode(response.body)['result'];
     } else {
       throw Exception('Failed to fetch logs');
