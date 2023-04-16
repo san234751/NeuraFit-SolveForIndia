@@ -180,7 +180,7 @@ class _MainScreenState extends State<MainScreen> {
                             }
                             ''',
                             ),
-                            width: MediaQuery.of(context).size.width,
+                            width: MediaQuery.of(context).size.width - 20,
                             height: MediaQuery.of(context).size.height / 2,
                           ),
                         ],

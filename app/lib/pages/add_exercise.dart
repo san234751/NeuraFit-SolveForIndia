@@ -7,7 +7,7 @@ class AddExercise extends StatefulWidget {
 }
 
 class _AddExerciseState extends State<AddExercise> {
-  List<String> names = ["Plank", "Running", "Bench press", "Pushups"];
+  List<String> names = ["Plank", "Squat", "Arm Press", "Pushups"];
   List<String> selected = [];
   @override
   Widget build(BuildContext context) {
