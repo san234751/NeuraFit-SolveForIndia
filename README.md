@@ -10,9 +10,11 @@ With NeuraFit, users can track their exercise progress over time, view their exe
 
 ## Features
 
-- Real-time pose detection: Utilizing PoseNet machine learning model, NeuraFit accurately detects the user's pose and provides feedback on their exercise performance in real-time.
+- Real-time pose detection: Utilising the PoseNet machine learning model, NeuraFit accurately detects the user's pose and provides feedback on their exercise performance in real-time.
 - Exercise tracking: NeuraFit keeps a record of the user's exercise history, allowing them to track their progress and monitor their improvement over time.
-- Personalized fitness goals: Users can set personalized fitness goals, such as increasing the number of reps or improving form, and track their progress towards achieving them.
+- Self-pace monitoring: The NeuraFit AI system can analyse the exercise and maintain track of the necessary reps, sets, and length of the workout. As a result, there is no need to remember to count while performing the workout.
+- Learn basic yoga posture: With our app, users can practise their favourite yoga routines with confidence, knowing that our AI system will accurately detect and analyse their posture in real time.
+- Personalised fitness goals: Users can set personalised fitness goals, such as increasing the number of reps or improving form, and track their progress towards achieving them.
 - Backend using TypeScript: NeuraFit's backend, built using TypeScript, ensures secure and efficient handling of user data, providing a seamless experience for the users.
 - User-friendly interface: NeuraFit features an intuitive and easy-to-use interface, making it accessible for users of all fitness levels to track and improve their exercise performance.
     
