@@ -21,7 +21,7 @@ packages:
       name: calendar_timeline
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.1"
+    version: "1.0.4"
   camera:
     dependency: "direct main"
     description:
@@ -302,7 +302,7 @@ packages:
       name: scrollable_positioned_list
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.10"
+    version: "0.2.3"
   sign_button:
     dependency: "direct main"
     description:
